@@ -4,8 +4,9 @@
 The Whisper backend was created with assistance from Claude (Anthropic). Below are the key prompts and decisions.
 
 ## Model Used
-- **Claude 3.5 Sonnet** (api.anthropic.com)
-- Used for both generating the backend code and for the `/narrative` endpoint
+- **Google Gemini Pro** (ai.google.dev)
+- Used for the `/narrative` endpoint to weave memories into narratives
+- Free tier: no payment information required
 
 ## Key Prompts and Design Decisions
 
@@ -18,20 +19,20 @@ The Whisper backend was created with assistance from Claude (Anthropic). Below a
 - `/narrative` endpoint fetches last 20 memories, calls Claude with a prompt that asks for a poetic weave
 - Added error handling and CORS
 
-### 2. Claude Integration for Narrative Generation
-**Prompt**: "Write a Claude API call that takes a list of anonymous memories and generates a short, beautiful, cohesive narrative that finds common themes."
+### 2. Gemini Integration for Narrative Generation
+**Prompt**: "Write a Gemini API call that takes a list of anonymous memories and generates a short, beautiful, cohesive narrative that finds common themes."
 
 **Implementation**:
-- Uses `claude-3-5-sonnet-20241022` model
-- Prompt asks Claude to be "poetic" and find "universal truths" in disparate voices
-- Limited to 300 tokens to keep narrative concise
+- Uses `gemini-pro` model
+- Prompt asks Gemini to be "poetic" and find "universal truths" in disparate voices
+- Uses Gemini's `generate_content()` method for streaming responses
 - Error handling for API failures
 
 ### 3. Environment Variables and Security
-**Prompt**: "How should I handle the Claude API key securely in a Flask app that will be deployed to Render?"
+**Prompt**: "How should I handle the Gemini API key securely in a Flask app that will be deployed to Render?"
 
 **Implementation**:
-- Read API key from environment variables using `os.getenv('CLAUDE_API_KEY')`
+- Read API key from environment variables using `os.getenv('GEMINI_API_KEY')`
 - `.gitignore` prevents `.env` from being committed
 - Render dashboard used to set production environment variables
 - No secrets hardcoded in source code

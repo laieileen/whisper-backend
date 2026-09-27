@@ -1,6 +1,6 @@
 # Whisper Backend
 
-A Flask backend that collects anonymous submissions and uses Claude AI to weave them into cohesive, poetic narratives.
+A Flask backend that collects anonymous submissions and uses Google's Gemini API to weave them into cohesive, poetic narratives.
 
 ## What It Does
 
@@ -20,7 +20,7 @@ curl -X POST http://127.0.0.1:5000/submit \
 ```
 
 ### `GET /narrative`
-Fetches the most recent memories and uses Claude to weave them into a narrative.
+Fetches the most recent memories and uses Gemini API to weave them into a narrative.
 - **Parameters**: None
 - **Response**: JSON with `narrative` (string) and `memory_count` (integer)
 
@@ -47,7 +47,7 @@ Simple health check to verify the backend is running.
 
 ### Prerequisites
 - Python 3.9+
-- A Claude API key from Anthropic
+- A Gemini API key from Google (free tier: https://ai.google.dev/)
 
 ### 1. Clone the repo and set up a virtual environment
 ```bash
@@ -65,7 +65,7 @@ pip install -r requirements.txt
 ### 3. Set up environment variables
 Create a `.env` file in the root directory (do NOT commit this):
 ```
-CLAUDE_API_KEY=sk-ant-...your-actual-key-here...
+GEMINI_API_KEY=your-gemini-api-key-here
 ```
 
 Load it in your shell:
@@ -132,7 +132,7 @@ The frontend replaces `http://127.0.0.1:5000` with the Render URL before deployi
    - **Environment**: Python 3
    - **Build Command**: `pip install -r requirements.txt`
    - **Start Command**: `gunicorn app:app`
-   - Add environment variables (including `CLAUDE_API_KEY`)
+   - Add environment variables (including `GEMINI_API_KEY`)
 6. Click "Create Web Service"
 7. Render will deploy and give you a public URL
 
@@ -141,7 +141,7 @@ The frontend replaces `http://127.0.0.1:5000` with the Render URL before deployi
 **"ModuleNotFoundError: No module named 'flask'"**
 - Make sure you've activated the venv and run `pip install -r requirements.txt`
 
-**"CLAUDE_API_KEY not found"**
+**"GEMINI_API_KEY not found"**
 - Locally: Make sure `.env` is in the root and you've run `export $(cat .env | xargs)`
 - On Render: Check the Environment tab in the dashboard
 
@@ -158,7 +158,7 @@ The frontend replaces `http://127.0.0.1:5000` with the Render URL before deployi
 
 - **`init_db()`**: Creates the memories table on startup
 - **`get_recent_memories()`**: Fetches the last N memories from the database
-- **`weave_narrative()`**: Calls Claude API to turn memories into a cohesive narrative
+- **`weave_narrative()`**: Calls Gemini API to turn memories into a cohesive narrative
 - **`/submit` endpoint**: Validates input, stores memory in DB, returns success/error
-- **`/narrative` endpoint**: Pulls memories, calls Claude, returns the narrative
+- **`/narrative` endpoint**: Pulls memories, calls Gemini, returns the narrative
 - **CORS**: Allows the frontend (GitHub Pages) to make requests to this backend
