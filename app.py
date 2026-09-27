@@ -27,6 +27,8 @@ def init_db():
     conn.commit()
     conn.close()
 
+init_db()
+
 def get_recent_memories(limit=20):
     """Fetch the most recent memories from the database."""
     conn = sqlite3.connect(DATABASE)
@@ -97,5 +99,4 @@ def health_check():
     return jsonify({'status': 'ok'}), 200
 
 if __name__ == '__main__':
-    init_db()
     app.run(debug=True, port=5000)
