@@ -74,7 +74,7 @@ Your backend URL: `https://whisper-backend-jrie.onrender.com`
 
 ## Authentication and Secrets
 
-This backend doesn't use any external APIs.
+This backend doesn't use any private APIs.
 
 Database (`memories.db`) is created automatically and stored locally on Render.
 
